@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: html-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      type: webserver-html
+  template:
+    metadata:
+      labels:
+        type: webserver-html
+    spec:
+      containers:
+      - name: html-code
+        image: arjunrekhi/mywebserver
+
+        ports:
+        - containerPort: 80
+
+        volumeMounts:
+        - name: html-volume
+          mountPath: /var/log/httpd
+      volumes:
+      - name: html-volume
+        persistentVolumeClaim:
+            claimName: webserver-html
+
+

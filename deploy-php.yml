@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+       type: webserver-php
+  template:
+    metadata:
+     name: php-code
+     labels:
+       type: webserver-php
+    spec:
+      containers:
+      - name: php-code
+        image: arjunrekhi/myphpserver
+
+        volumeMounts:
+        - name: php-volume
+          mountPath: /var/log/httpd
+      volumes:
+      - name: php-volume
+        persistentVolumeClaim:
+            claimName: webserver-php
